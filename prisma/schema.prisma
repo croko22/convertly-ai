@@ -24,6 +24,7 @@ model Course {
   description String
   price       Decimal   @db.Decimal(10, 2)
   image       String?
+  userId      String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?

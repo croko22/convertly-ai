@@ -5,10 +5,15 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Calendar, ArrowLeft } from "lucide-react";
 import { headers } from "next/headers";
 import { TrashActions } from "@/components/trash-actions";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function TrashPage() {
+    const { userId } = await auth();
+    if (!userId) return redirect("/sign-in");
+
     const headersList = await headers();
     const host = headersList.get("host") || "localhost:3000";
     const protocol = host.includes("localhost") ? "http" : "https";
@@ -17,6 +22,7 @@ export default async function TrashPage() {
     const landingPages = await prisma.landingPage.findMany({
         where: {
             course: {
+                userId,
                 deletedAt: {
                     not: null
                 }

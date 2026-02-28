@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Sparkles, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 export function Header() {
     return (
@@ -17,15 +18,24 @@ export function Header() {
                         <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
                             <Link href="/pricing">Pricing</Link>
                         </Button>
-                        <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                            <Link href="/landings">My Pages</Link>
-                        </Button>
-                        <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                            <Link href="/login">Log in</Link>
-                        </Button>
-                        <Button variant="default" size="sm" asChild>
-                            <Link href="/signup">Get Started</Link>
-                        </Button>
+                        <SignedIn>
+                            <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
+                                <Link href="/landings">My Pages</Link>
+                            </Button>
+                            <UserButton />
+                        </SignedIn>
+                        <SignedOut>
+                            <SignInButton mode="modal">
+                                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                                    Log in
+                                </Button>
+                            </SignInButton>
+                            <SignUpButton mode="modal">
+                                <Button variant="default" size="sm">
+                                    Get Started
+                                </Button>
+                            </SignUpButton>
+                        </SignedOut>
                         <Button variant="ghost" size="icon" asChild className="ml-2">
                             <Link href="https://github.com/croko22/convertly-ai" target="_blank" rel="noreferrer">
                                 <Github className="h-4 w-4" />
