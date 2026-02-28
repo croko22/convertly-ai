@@ -32,8 +32,10 @@ export function proxy(req: NextRequest) {
         "www.convertly.com",
     ];
 
-    // Not a root domain? It's a subdomain.
-    if (!rootDomains.includes(hostnameWithoutPort)) {
+    const isVercelDomain = hostnameWithoutPort.endsWith(".vercel.app");
+
+    // Not a root domain and not a vercel domain? It's a subdomain.
+    if (!rootDomains.includes(hostnameWithoutPort) && !isVercelDomain) {
         // Extract the subdomain (e.g., 'page-name' from 'page-name.localhost.com')
         const subdomain = hostnameWithoutPort
             .replace(".localhost.com", "")
