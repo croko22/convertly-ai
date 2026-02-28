@@ -4,6 +4,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 const isProtectedRoute = createRouteMatcher([
     '/landings(.*)',
     '/trash(.*)',
+    '/settings(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
@@ -34,7 +35,9 @@ export default clerkMiddleware(async (auth, req) => {
             const requestHeaders = new Headers(req.headers);
             requestHeaders.set("x-subdomain", subdomain);
 
-            return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname === "/" ? "" : url.pathname}`, req.url), {
+            const rewriteUrl = new URL(`/${subdomain}${url.pathname === "/" ? "" : url.pathname}`, req.url);
+
+            return NextResponse.rewrite(rewriteUrl, {
                 request: {
                     headers: requestHeaders,
                 },
