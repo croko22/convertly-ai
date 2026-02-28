@@ -59,6 +59,8 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const isSubdomain = !!headersList.get("x-subdomain");
+  const pathname = headersList.get("x-invoke-path") || headersList.get("x-url") || "";
+  const isDashboardRoute = pathname.startsWith("/landings") || pathname.startsWith("/trash") || pathname.startsWith("/settings");
 
   return (
     <ClerkProvider>
@@ -66,7 +68,7 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-900/30 dark:selection:text-blue-200`}
         >
-          {!isSubdomain ? <Header /> : null}
+          {(!isSubdomain && !isDashboardRoute) ? <Header /> : null}
           <Toaster />
           {children}
         </body>
