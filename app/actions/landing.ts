@@ -36,3 +36,47 @@ export async function updateLandingPage(id: string, data: CourseLandingPage, slu
         return { success: false, error: e.message };
     }
 }
+
+export async function trashCourse(courseId: string) {
+    try {
+        await prisma.course.update({
+            where: { id: courseId },
+            data: { deletedAt: new Date() }
+        });
+        revalidatePath("/landings");
+        revalidatePath("/trash");
+        return { success: true };
+    } catch (e: any) {
+        console.error("Failed to trash course", e);
+        return { success: false, error: e.message };
+    }
+}
+
+export async function restoreCourse(courseId: string) {
+    try {
+        await prisma.course.update({
+            where: { id: courseId },
+            data: { deletedAt: null }
+        });
+        revalidatePath("/landings");
+        revalidatePath("/trash");
+        return { success: true };
+    } catch (e: any) {
+        console.error("Failed to restore course", e);
+        return { success: false, error: e.message };
+    }
+}
+
+export async function deleteCourse(courseId: string) {
+    try {
+        await prisma.course.delete({
+            where: { id: courseId }
+        });
+        revalidatePath("/landings");
+        revalidatePath("/trash");
+        return { success: true };
+    } catch (e: any) {
+        console.error("Failed to delete course", e);
+        return { success: false, error: e.message };
+    }
+}

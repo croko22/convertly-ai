@@ -27,7 +27,7 @@ export function Header() {
                             <Link href="/signup">Get Started</Link>
                         </Button>
                         <Button variant="ghost" size="icon" asChild className="ml-2">
-                            <Link href="https://github.com" target="_blank" rel="noreferrer">
+                            <Link href="https://github.com/croko22/convertly-ai" target="_blank" rel="noreferrer">
                                 <Github className="h-4 w-4" />
                                 <span className="sr-only">GitHub</span>
                             </Link>
