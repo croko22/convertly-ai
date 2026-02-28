@@ -14,7 +14,7 @@ export const config = {
     ],
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
     const url = req.nextUrl;
 
     // Get hostname (e.g. 'page-test.localhost:3000')
